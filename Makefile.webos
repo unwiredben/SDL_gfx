@@ -1,0 +1,20 @@
+PalmPDK=C:\Program Files (x86)\HP webOS\PDK
+CC=arm-none-linux-gnueabi-gcc
+AR=arm-none-linux-gnueabi-ar rc
+RANLIB=arm-none-linux-gnueabi-ranlib
+
+CFLAGS = -O3 -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=softfp -std=c99 -fgnu89-inline -Wall -Wextra -D_M_ARM "-I$(PalmPDK)/include/SDL"
+LIBS = -L$(lib_dir) -lSDL
+
+OBJS = SDL_framerate.o SDL_gfxPrimitives.o SDL_imageFilter.o SDL_rotozoom.o
+
+STATIC_LIB=libSDL_gfx.a
+
+all: $(STATIC_LIB)
+
+$(STATIC_LIB): $(OBJS)
+	$(AR) $@ $^
+	$(RANLIB) $@
+
+clean:
+	rm -f *.o *.a
